@@ -1,0 +1,33 @@
+# Python 缓存文件
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 虚拟环境
+venv/
+env/
+.venv/
+
+# 编辑器配置
+.vscode/
+.idea/
+
+# 日志和临时文件
+*.log
+*.tmp
+*.swp
+
+# 数据库文件（本地测试）
+*.db
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 构建和打包产物
+build/
+dist/
+*.egg-info/
+
+# Jupyter Notebook 检查点
+.ipynb_checkpoints/

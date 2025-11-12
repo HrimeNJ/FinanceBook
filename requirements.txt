@@ -1,0 +1,21 @@
+# FinanceBook Desktop Application Dependencies
+
+# Core Framework
+flet==0.28.3
+
+# Database
+sqlite3
+
+# Standard Library (included with Python)
+# - datetime
+# - typing
+# - dataclasses
+# - hashlib
+# - json
+# - os
+
+# Optional Dependencies for Future Features
+pandas>=2.0.0          # For advanced data analysis
+matplotlib>=3.7.0      # For chart generation
+openpyxl>=3.1.0        # For Excel export/import
+reportlab>=4.0.0       # For PDF report generation
