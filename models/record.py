@@ -48,7 +48,7 @@ class Record:
                 if data.get("date")
                 else datetime.now()
             ),
-            record_type=data.get("type", ""),
+            record_type=data.get("record_type", ""),
             note=data.get("note", ""),
             category_id=data.get("category_id", 0),
             user_id=data.get("user_id", 0),

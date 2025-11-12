@@ -335,14 +335,14 @@ class AddRecordView(ft.View):
                 return
 
             amount = float(self.amount_field.value)
-            record_type = self.record_type.value
+            selected_type = self.record_type.value
             category_id = int(self.category_dropdown.value)
             note = self.description_field.value or ""
             record_date = datetime.strptime(self.selected_date.value, "%Y-%m-%d")
 
             record = Record(
                 amount=amount,
-                record_type=record_type,
+                record_type=selected_type,
                 category_id=category_id,
                 note=note,
                 user_id=self.state.current_user.user_id,

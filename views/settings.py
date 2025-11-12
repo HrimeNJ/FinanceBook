@@ -5,6 +5,7 @@ SettingsView for ui
 import flet as ft
 
 from components.sidebar import Sidebar
+from models.export import ExportModule
 
 
 class SettingsView(ft.View):
@@ -15,6 +16,7 @@ class SettingsView(ft.View):
         self.state = state
         self.go = go
         self.page = state.page
+        self.export_module = ExportModule(state)
         self.create_settings_components()
         self.controls = [self.create_settings_layout()]
 
@@ -374,7 +376,71 @@ class SettingsView(ft.View):
 
     def export_all_data(self, e):
         """导出所有数据"""
-        self.show_snackbar("导出所有数据功能将在后续版本实现", "info")
+        # 创建导出格式选择对话框
+        def close_dialog(e):
+            dialog.open = False
+            self.page.update()
+
+        def export_json(e):
+            close_dialog(e)
+            success, result = self.export_module.export_to_json()
+            if success:
+                self.show_snackbar(f"JSON导出成功: {result}", "success")
+            else:
+                self.show_snackbar(result, "error")
+
+        def export_excel(e):
+            close_dialog(e)
+            success, result = self.export_module.export_to_excel()
+            if success:
+                self.show_snackbar(f"Excel导出成功: {result}", "success")
+            else:
+                self.show_snackbar(result, "error")
+
+        dialog = ft.AlertDialog(
+            modal=True,
+            title=ft.Text("选择导出格式"),
+            content=ft.Container(
+                content=ft.Column(
+                    [
+                        ft.Text("请选择要导出的文件格式:", size=14),
+                        ft.Container(height=10),
+                        ft.ElevatedButton(
+                            text="导出为 JSON",
+                            icon=ft.Icons.CODE,
+                            width=200,
+                            style=ft.ButtonStyle(
+                                bgcolor=ft.Colors.BLUE_600,
+                                color=ft.Colors.WHITE,
+                            ),
+                            on_click=export_json,
+                        ),
+                        ft.Container(height=10),
+                        ft.ElevatedButton(
+                            text="导出为 Excel",
+                            icon=ft.Icons.TABLE_CHART,
+                            width=200,
+                            style=ft.ButtonStyle(
+                                bgcolor=ft.Colors.GREEN_600,
+                                color=ft.Colors.WHITE,
+                            ),
+                            on_click=export_excel,
+                        ),
+                    ],
+                    tight=True,
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                ),
+                width=300,
+            ),
+            actions=[
+                ft.TextButton("取消", on_click=close_dialog),
+            ],
+            actions_alignment=ft.MainAxisAlignment.END,
+        )
+
+        self.page.overlay.append(dialog)
+        dialog.open = True
+        self.page.update()
 
     def import_data(self, e):
         """导入数据"""

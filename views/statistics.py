@@ -2,7 +2,9 @@
 StatisticsView for ui
 """
 
+from collections import defaultdict
 from datetime import datetime, timedelta
+from typing import Dict, List, Tuple
 
 import flet as ft
 
@@ -18,6 +20,7 @@ class StatisticsView(ft.View):
         self.state = state
         self.go = go
         self.page = state.page
+        self.current_period = "month"
         self.controls = [self.create_statistics_layout()]
 
     def create_statistics_layout(self):
@@ -265,31 +268,76 @@ class StatisticsView(ft.View):
             return self.get_empty_stats()
 
         try:
-            balance_data = self.state.db.get_user_balance(
-                self.state.current_user.user_id
+            # 获取当前周期和上一周期的日期范围
+            current_range = self.get_period_date_range()
+            previous_range = self.get_previous_period_date_range()
+
+            if not current_range:
+                return self.get_empty_stats()
+
+            current_start, current_end = current_range
+            records = self.state.records.copy()
+
+            # 当前周期统计
+            current_income = 0
+            current_expense = 0
+            current_records = []
+            category_expenses = defaultdict(float)
+
+            for record in records:
+                record_date = record.date.date()
+                if current_start <= record_date <= current_end:
+                    current_records.append(record)
+                    if record.record_type == "income":
+                        current_income += record.amount
+                    elif record.record_type == "expense":
+                        current_expense += record.amount
+                        category = self.state.get_category_by_id(record.category_id)
+                        category_name = category.name if category else "其他"
+                        category_expenses[category_name] += record.amount
+
+            # 上一周期统计（用于计算变化率）
+            previous_income = 0
+            previous_expense = 0
+
+            if previous_range:
+                previous_start, previous_end = previous_range
+                for record in records:
+                    record_date = record.date.date()
+                    if previous_start <= record_date <= previous_end:
+                        if record.record_type == "income":
+                            previous_income += record.amount
+                        elif record.record_type == "expense":
+                            previous_expense += record.amount
+
+            # 计算变化率
+            income_change = self.calculate_change_rate(current_income, previous_income)
+            expense_change = self.calculate_change_rate(
+                current_expense, previous_expense
             )
-            records = self.state.db.get_records(self.state.current_user.user_id)
 
-            # 计算基本统计
-            total_income = balance_data.get("income", 0)
-            total_expenses = balance_data.get("expense", 0)
-            net_savings = total_income - total_expenses
+            # 计算净储蓄
+            net_savings = current_income - current_expense
+            previous_savings = previous_income - previous_expense
+            savings_change = self.calculate_change_rate(net_savings, previous_savings)
 
-            # 计算变化率（简化版，实际应该对比上期数据）
-            income_change = 5.2  # 模拟数据
-            expense_change = 3.1
-            savings_change = (net_savings / max(total_income, 1)) * 100
+            # 找出最大支出分类
+            top_category = "暂无数据"
+            top_category_amount = 0
+            if category_expenses:
+                top_category = max(category_expenses.items(), key=lambda x: x[1])
+                top_category_amount = top_category[1]
+                top_category = top_category[0]
 
-            # 分析最大支出分类
-            top_category = "餐饮"  # 简化版
-            top_category_amount = total_expenses * 0.3
-
-            # 日均支出
-            daily_average = total_expenses / 30 if total_expenses > 0 else 0
+            # 计算日均支出
+            days_in_period = (current_end - current_start).days + 1
+            daily_average = (
+                current_expense / days_in_period if days_in_period > 0 else 0
+            )
 
             return {
-                "total_income": total_income,
-                "total_expenses": total_expenses,
+                "total_income": current_income,
+                "total_expenses": current_expense,
                 "net_savings": net_savings,
                 "income_change": income_change,
                 "expense_change": expense_change,
@@ -297,11 +345,24 @@ class StatisticsView(ft.View):
                 "top_category": top_category,
                 "top_category_amount": top_category_amount,
                 "daily_average": daily_average,
-                "transaction_count": len(records),
+                "transaction_count": len(current_records),
             }
         except Exception as e:
             print(f"统计数据获取失败: {e}")
+            import traceback
+
+            traceback.print_exc()
             return self.get_empty_stats()
+
+    def calculate_change_rate(self, current: float, previous: float) -> float:
+        """计算变化率（百分比）"""
+        if previous == 0:
+            if current > 0:
+                return 100.0  # 从0增长到有值，显示100%增长
+            return 0.0
+
+        change_rate = ((current - previous) / previous) * 100
+        return round(change_rate, 1)
 
     def get_empty_stats(self):
         """获取空统计数据"""
@@ -319,28 +380,472 @@ class StatisticsView(ft.View):
         }
 
     def create_category_chart(self):
-        """创建分类图表（简化版）"""
-        return ft.Container(
-            content=ft.Text(
-                "分类图表\n（将在后续版本实现）", text_align=ft.TextAlign.CENTER
+        """创建支出分类饼图"""
+        category_data = self.get_category_data()
+
+        if not category_data:
+            return ft.Container(
+                content=ft.Column(
+                    [
+                        ft.Icon(
+                            ft.Icons.PIE_CHART_OUTLINE,
+                            size=48,
+                            color=ft.Colors.GREY_400,
+                        ),
+                        ft.Text("暂无数据", size=14, color=ft.Colors.GREY_500),
+                    ],
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    spacing=10,
+                ),
+                height=250,
+                alignment=ft.alignment.center,
+            )
+
+        # 计算总金额
+        total_amount = sum(category_data.values())
+
+        # 创建分类列表
+        category_items = []
+        pie_sections = []
+
+        for index, (category_name, amount) in enumerate(category_data.items()):
+            percentage = (amount / total_amount * 100) if total_amount > 0 else 0
+            color = self.get_category_color(index)
+
+            # 分类列表项
+            category_items.append(
+                ft.Container(
+                    content=ft.Row(
+                        [
+                            ft.Container(
+                                width=12,
+                                height=12,
+                                bgcolor=color,
+                                border_radius=2,
+                            ),
+                            ft.Column(
+                                [
+                                    ft.Text(
+                                        category_name,
+                                        size=12,
+                                        weight=ft.FontWeight.W_500,
+                                    ),
+                                    ft.Text(
+                                        f"¥{amount:.2f}",
+                                        size=11,
+                                        color=ft.Colors.GREY_600,
+                                    ),
+                                ],
+                                spacing=2,
+                                expand=True,
+                            ),
+                            ft.Text(
+                                f"{percentage:.1f}%",
+                                size=12,
+                                weight=ft.FontWeight.BOLD,
+                                color=color,
+                            ),
+                        ],
+                        spacing=8,
+                    ),
+                    padding=ft.padding.symmetric(vertical=6),
+                )
+            )
+
+            # 饼图扇区
+            pie_sections.append(
+                ft.PieChartSection(
+                    value=amount,
+                    title=f"{percentage:.1f}%",
+                    color=color,
+                    radius=50,
+                    title_style=ft.TextStyle(
+                        size=10,
+                        color=ft.Colors.WHITE,
+                        weight=ft.FontWeight.BOLD,
+                    ),
+                )
+            )
+
+        # 创建饼图
+        pie_chart = ft.PieChart(
+            sections=pie_sections,
+            sections_space=2,
+            center_space_radius=40,
+            expand=False,
+            width=150,
+            height=150,
+        )
+
+        # 饼图容器,显示总金额在中心
+        pie_visual = ft.Container(
+            content=ft.Stack(
+                [
+                    pie_chart,
+                    ft.Container(
+                        content=ft.Column(
+                            [
+                                ft.Text(
+                                    "总支出",
+                                    size=10,
+                                    color=ft.Colors.GREY_600,
+                                ),
+                                ft.Text(
+                                    f"¥{total_amount:.0f}",
+                                    size=14,
+                                    weight=ft.FontWeight.BOLD,
+                                ),
+                            ],
+                            horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                            alignment=ft.MainAxisAlignment.CENTER,
+                        ),
+                        width=150,
+                        height=150,
+                        alignment=ft.alignment.center,
+                    ),
+                ],
             ),
-            height=180,  # 减少高度
-            alignment=ft.alignment.center,
-            bgcolor=ft.Colors.GREY_100,
-            border_radius=8,
+            margin=ft.margin.only(bottom=16, right=20),
+        )
+
+        return ft.Container(
+            content=ft.Row(
+                [
+                    pie_visual,
+                    ft.Container(
+                        content=ft.Column(
+                            category_items,
+                            spacing=4,
+                            scroll=ft.ScrollMode.AUTO,
+                        ),
+                        expand=True,
+                    ),
+                ],
+                spacing=20,
+                alignment=ft.MainAxisAlignment.START,
+            ),
+            height=250,
         )
 
     def create_trend_chart(self):
-        """创建趋势图表（简化版）"""
-        return ft.Container(
-            content=ft.Text(
-                "趋势图表\n（将在后续版本实现）", text_align=ft.TextAlign.CENTER
-            ),
-            height=180,  # 减少高度
-            alignment=ft.alignment.center,
-            bgcolor=ft.Colors.GREY_100,
-            border_radius=8,
+        """创建最近7天收支趋势折线图"""
+        trend_data = self.get_trend_data()
+
+        if not trend_data["dates"]:
+            return ft.Container(
+                content=ft.Column(
+                    [
+                        ft.Icon(ft.Icons.SHOW_CHART, size=48, color=ft.Colors.GREY_400),
+                        ft.Text("暂无数据", size=14, color=ft.Colors.GREY_500),
+                    ],
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                    spacing=10,
+                ),
+                height=250,
+                alignment=ft.alignment.center,
+            )
+
+        income_data = trend_data["income"]
+        expense_data = trend_data["expense"]
+        date_labels = trend_data["date_labels"]
+
+        # 计算最大值用于缩放
+        max_value = max(
+            max(income_data) if income_data else 0,
+            max(expense_data) if expense_data else 0,
         )
+        max_value = max_value * 1.2 if max_value > 0 else 100  # 留20%空间
+
+        # 创建折线图
+        income_spots = []
+        expense_spots = []
+
+        for i, (income, expense) in enumerate(zip(income_data, expense_data)):
+            income_spots.append(ft.LineChartDataPoint(i, income))
+            expense_spots.append(ft.LineChartDataPoint(i, expense))
+
+        # 创建折线图
+        line_chart = ft.LineChart(
+            data_series=[
+                ft.LineChartData(
+                    data_points=income_spots,
+                    stroke_width=3,
+                    color=ft.Colors.GREEN_500,
+                    curved=True,
+                    stroke_cap_round=True,
+                    below_line_bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.GREEN_500),
+                ),
+                ft.LineChartData(
+                    data_points=expense_spots,
+                    stroke_width=3,
+                    color=ft.Colors.RED_500,
+                    curved=True,
+                    stroke_cap_round=True,
+                    below_line_bgcolor=ft.Colors.with_opacity(0.1, ft.Colors.RED_500),
+                ),
+            ],
+            border=ft.Border(
+                bottom=ft.BorderSide(1, ft.Colors.GREY_300),
+                left=ft.BorderSide(1, ft.Colors.GREY_300),
+            ),
+            left_axis=ft.ChartAxis(
+                labels_size=50,
+                title=ft.Text("金额"),
+                title_size=20,
+            ),
+            bottom_axis=ft.ChartAxis(
+                labels=[
+                    ft.ChartAxisLabel(
+                        value=i,
+                        label=ft.Text(label, size=10, color=ft.Colors.GREY_600),
+                    )
+                    for i, label in enumerate(date_labels)
+                ],
+                labels_size=30,
+            ),
+            tooltip_bgcolor=ft.Colors.with_opacity(0.8, ft.Colors.GREY_900),
+            min_y=0,
+            max_y=max_value,
+            min_x=0,
+            max_x=len(date_labels) - 1,
+            expand=True,
+        )
+
+        # 图例
+        legend = ft.Row(
+            [
+                ft.Row(
+                    [
+                        ft.Container(
+                            width=16,
+                            height=3,
+                            bgcolor=ft.Colors.GREEN_500,
+                            border_radius=1,
+                        ),
+                        ft.Text("收入", size=11, color=ft.Colors.GREY_600),
+                    ],
+                    spacing=6,
+                ),
+                ft.Row(
+                    [
+                        ft.Container(
+                            width=16,
+                            height=3,
+                            bgcolor=ft.Colors.RED_500,
+                            border_radius=1,
+                        ),
+                        ft.Text("支出", size=11, color=ft.Colors.GREY_600),
+                    ],
+                    spacing=6,
+                ),
+            ],
+            spacing=16,
+            alignment=ft.MainAxisAlignment.CENTER,
+        )
+
+        return ft.Container(
+            content=ft.Column(
+                [
+                    ft.Container(
+                        content=line_chart,
+                        height=180,
+                        padding=ft.padding.only(right=10, top=10),
+                    ),
+                    ft.Container(height=10),
+                    legend,
+                ],
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER,
+                spacing=0,
+            ),
+            height=250,
+        )
+
+    def get_category_data(self) -> Dict[str, float]:
+        """获取分类统计数据（仅支出）"""
+        if not self.state.current_user:
+            return {}
+
+        # 获取当前时间段的记录
+        records = self.get_period_records()
+
+        # 按分类统计支出
+        category_totals = defaultdict(float)
+
+        for record in records:
+            if record.record_type == "expense":
+                category = self.state.get_category_by_id(record.category_id)
+                category_name = category.name if category else "其他"
+                category_totals[category_name] += record.amount
+
+        # 按金额排序，取前6个分类
+        sorted_categories = category_totals
+        if len(category_totals) > 6:
+            sorted_categories = dict(
+                sorted(category_totals.items(), key=lambda x: x[1], reverse=True)[:6]
+            )
+
+        return sorted_categories
+
+    def get_trend_data(self) -> Dict[str, List]:
+        """获取最近7天的趋势数据"""
+        if not self.state.current_user:
+            return {"dates": [], "income": [], "expense": [], "date_labels": []}
+
+        # 获取最近7天的日期范围
+        today = datetime.now().date()
+        start_date = today - timedelta(days=6)  # 包括今天共7天
+
+        # 生成7天的日期列表
+        date_list = []
+        for i in range(7):
+            date_list.append(start_date + timedelta(days=i))
+
+        # 获取所有记录
+        records = self.state.records.copy()
+
+        # 按日期统计收入和支出
+        income_data = []
+        expense_data = []
+        date_labels = []
+
+        for date in date_list:
+            daily_income = 0
+            daily_expense = 0
+
+            # 统计当天的收入和支出
+            for record in records:
+                if record.date.date() == date:
+                    if record.record_type == "income":
+                        daily_income += record.amount
+                    elif record.record_type == "expense":
+                        daily_expense += record.amount
+
+            income_data.append(daily_income)
+            expense_data.append(daily_expense)
+
+            # 生成日期标签 (月/日格式)
+            date_labels.append(date.strftime("%m/%d"))
+
+        return {
+            "dates": date_list,
+            "income": income_data,
+            "expense": expense_data,
+            "date_labels": date_labels,
+        }
+
+    def get_period_records(self):
+        """获取当前时间段的记录"""
+        if not self.state.current_user:
+            return []
+
+        all_records = self.state.records.copy()
+        date_range = self.get_period_date_range()
+
+        if not date_range:
+            return all_records
+
+        start_date, end_date = date_range
+
+        return [
+            record
+            for record in all_records
+            if start_date <= record.date.date() <= end_date
+        ]
+
+    def get_period_date_range(self) -> Tuple[datetime.date, datetime.date]:
+        """根据当前时间段获取日期范围"""
+        today = datetime.now().date()
+
+        if self.current_period == "week":
+            start_of_week = today - timedelta(days=today.weekday())
+            return start_of_week, today
+        elif self.current_period == "month":
+            start_of_month = today.replace(day=1)
+            return start_of_month, today
+        elif self.current_period == "quarter":
+            # 当前季度
+            current_quarter = (today.month - 1) // 3
+            start_month = current_quarter * 3 + 1
+            start_of_quarter = today.replace(month=start_month, day=1)
+            return start_of_quarter, today
+        elif self.current_period == "year":
+            start_of_year = today.replace(month=1, day=1)
+            return start_of_year, today
+
+        return None
+
+    def get_previous_period_date_range(self) -> Tuple[datetime.date, datetime.date]:
+        """获取上一周期的日期范围"""
+        today = datetime.now().date()
+
+        if self.current_period == "week":
+            # 上周
+            start_of_week = today - timedelta(days=today.weekday())
+            previous_start = start_of_week - timedelta(days=7)
+            previous_end = start_of_week - timedelta(days=1)
+            return previous_start, previous_end
+
+        elif self.current_period == "month":
+            # 上月
+            first_day_current = today.replace(day=1)
+            last_day_previous = first_day_current - timedelta(days=1)
+            first_day_previous = last_day_previous.replace(day=1)
+            return first_day_previous, last_day_previous
+
+        elif self.current_period == "quarter":
+            # 上季度
+            current_quarter = (today.month - 1) // 3
+
+            if current_quarter == 0:
+                # 如果当前是第一季度，上一季度是去年第四季度
+                previous_year = today.year - 1
+                previous_start = datetime(previous_year, 10, 1).date()
+                previous_end = datetime(previous_year, 12, 31).date()
+            else:
+                previous_quarter = current_quarter - 1
+                previous_start_month = previous_quarter * 3 + 1
+                previous_start = today.replace(month=previous_start_month, day=1)
+
+                # 上季度最后一天
+                current_start_month = current_quarter * 3 + 1
+                current_start = today.replace(month=current_start_month, day=1)
+                previous_end = current_start - timedelta(days=1)
+
+            return previous_start, previous_end
+
+        elif self.current_period == "year":
+            # 去年
+            previous_year = today.year - 1
+            previous_start = datetime(previous_year, 1, 1).date()
+            previous_end = datetime(previous_year, 12, 31).date()
+            return previous_start, previous_end
+
+        return None
+
+    def get_category_color(self, index: int) -> str:
+        """获取分类颜色"""
+        colors = [
+            ft.Colors.BLUE_400,
+            ft.Colors.GREEN_400,
+            ft.Colors.ORANGE_400,
+            ft.Colors.RED_400,
+            ft.Colors.PURPLE_400,
+            ft.Colors.CYAN_400,
+            ft.Colors.PINK_400,
+            ft.Colors.INDIGO_400,
+        ]
+        return colors[index % len(colors)]
+
+    def update_statistics(self, e):
+        """更新统计数据"""
+        # 更新当前时间段
+        self.current_period = e.control.value
+
+        # 重新创建整个布局以更新图表
+        self.controls = [self.create_statistics_layout()]
+        self.page.update()
+
+        self.show_snackbar(f"已切换到{e.control.selected_index}统计", "info")
 
     def create_insight_card(self, title, subtitle, value, icon, color):
         """创建洞察卡片"""
@@ -376,11 +881,6 @@ class StatisticsView(ft.View):
             border=ft.border.all(1, color),
             height=100,  # 固定高度
         )
-
-    def update_statistics(self, e):
-        """更新统计数据"""
-        # 重新加载统计数据
-        self.show_snackbar("统计数据已更新", "info")
 
     def handle_logout(self, e):
         """处理登出"""
