@@ -6,7 +6,7 @@ including table creation, record management, and data querying for the Finance B
 """
 
 import sqlite3
-from datetime import datetime
+from datetime import datetime, timedelta
 from typing import Dict, List, Optional
 
 from models.category import Category
@@ -135,6 +135,18 @@ class DatabaseManager:
         Returns:
             List[Dict]: 查询结果列表
         """
+        # BUG: 每次都创建新连接，不复用
+        # 在高频操作时会耗尽系统资源
+        conn = sqlite3.connect(self.db_path)  # 不使用 with
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute(sql, params)
+        result = [dict(row) for row in cursor.fetchall()]
+        
+        # BUG: 故意不关闭连接，模拟泄漏
+        # conn.close()  # 注释掉关闭操作
+        return result
+
         try:
             with sqlite3.connect(self.db_path) as conn:
                 conn.row_factory = sqlite3.Row
@@ -374,6 +386,7 @@ class DatabaseManager:
         end_date: Optional[str] = None,
         limit: Optional[int] = None,
         order_by: str = "date DESC",
+        sort_column: Optional[str] = None,  # 新增危险参数
     ) -> List[Record]:
         """
         获取记录列表
@@ -397,8 +410,17 @@ class DatabaseManager:
 
         sql += f" ORDER BY {order_by}"
 
+        # BUG: 直接拼接用户输入，未经验证
+        if sort_column:
+            # 危险! 如果 sort_column 来自用户输入，可以注入任意SQL
+            # 例如: sort_column = "date; DROP TABLE records--"
+            sql += f" ORDER BY {sort_column} {order_by}"
+        else:
+            sql += f" ORDER BY {order_by}"
+
         if limit:
-            sql += f" LIMIT {limit}"
+            # BUG: limit 也应该参数化
+            sql += f" LIMIT {limit}"  # 也可能被注入
 
         results = self.query(sql, tuple(params))
         return [Record.from_dict(row) for row in results]
@@ -415,6 +437,15 @@ class DatabaseManager:
         """
         result = self.query("SELECT * FROM records WHERE record_id = ?", (record_id,))
         return Record.from_dict(result[0]) if result else None
+
+    def get_all_records(self, user_id: int) -> List[Record]:
+        """加载所有记录"""
+        # BUG: 没有 LIMIT，如果用户有10万条记录会内存溢出
+        sql = "SELECT * FROM records WHERE user_id = ? ORDER BY date DESC"
+        
+        results = self.query(sql, (user_id,))
+        
+        return [Record.from_dict(row) for row in results]
 
     # ==================== 统计方法 ====================
 
@@ -459,8 +490,6 @@ class DatabaseManager:
         Returns:
             List[Record]: 记录列表
         """
-        from datetime import datetime, timedelta
-
         now = datetime.now()
 
         if period == "today":

@@ -40,6 +40,10 @@ class Record:
     @classmethod
     def from_dict(cls, data: dict) -> "Record":
         """从字典创建记录对象"""
+
+        # BUG: 直接使用输入数据，不验证格式
+        # 比如: 如果 data['date'] 是恶意字符串会崩溃, amount 可能不是数字, 都有可能导致程序崩溃
+
         return cls(
             record_id=data.get("record_id"),
             amount=data.get("amount", 0.0),

@@ -1,0 +1,60 @@
+{
+    "1": {
+        "CWE": "CWE-401",
+        "name": "Memory Leak - page.overlay 无限累积",
+        "File": "views/login.py",
+        "Line": 239,
+        "Code": "self.page.overlay.append(snack_bar)\nsnack_bar.open = True\nself.page.update()",
+        "Description": "每次调用 show_snackbar 都会新建 SnackBar 并放入 overlay，但 overlay 未清理旧对象，导致内存持续增长",
+        "Trigger_Scenario": "频繁登录失败或保存记录时反复添加通知对象，overlay 长期累积",
+        "Proof_of_Concept": "循环调用 show_snackbar 100 次，len(page.overlay) 持续增长",
+        "Fix": "限制 overlay 长度到 5 个以内，或使用缓存复用组件"
+    },
+    "2": {
+        "CWE": "CWE-476",
+        "name": "NULL Pointer Dereference - current_user 未验证",
+        "File": "views/add_record.py",
+        "Line": 351,
+        "Code": "user_id=self.state.current_user.user_id",
+        "Description": "current_user 可能为 None（例如会话过期），直接访问属性会崩溃",
+        "Trigger_Scenario": "用户保持应用运行数小时后保存记录",
+        "Fix": "添加 None 检查并跳转回登录页面"
+    },
+    "3": {
+        "CWE": "CWE-404",
+        "name": "Resource Leak - 频繁重复创建数据库连接",
+        "File": "models/database.py",
+        "Line": 127,
+        "Code": "with sqlite3.connect(self.db_path) as conn:",
+        "Description": "每次查询都创建新连接，耗费资源。高频查询可能导致文件描述符耗尽",
+        "Fix": "实现连接池/单例连接"
+    },
+    "4": {
+        "CWE": "CWE-89",
+        "name": "SQL Injection - order_by 参数未过滤",
+        "File": "models/database.py",
+        "Line": 391,
+        "Code": "sql += f\" ORDER BY {order_by}\"",
+        "Description": "order_by 是外部输入时可形成 SQL 注入风险",
+        "Trigger_Scenario": "传入恶意 payload，如：\"date; DROP TABLE records--\"",
+        "Fix": "基于白名单转换排序字段"
+    },
+    "5": { 
+        "CWE": "CWE-502", 
+        "name": "Unsafe Deserialization - from_dict 缺少验证", 
+        "File": "models/record.py", 
+        "Line": 46, 
+        "Code": "date=datetime.fromisoformat(data[\"date\"]) if data.get(\"date\") else datetime.now()", 
+        "Description": "from_dict 方法假设输入数据格式正确，如果从 JSON 导入损坏或恶意构造的数据，会引发异常或产生错误状态",
+        "Fix": "添加数据验证和异常处理"
+    },
+    "6": {
+        "CWE": "CWE-798",
+        "name": "Weak Cryptography - 无盐 SHA256",
+        "File": "views/login.py",
+        "Line": 183,
+        "Code": "password_hash = hashlib.sha256(password.encode()).hexdigest()",
+        "Description": "密码哈希未加盐，易被彩虹表攻击",
+        "Fix": "改用 bcrypt 或 argon2 包含随机盐值"
+    }
+}

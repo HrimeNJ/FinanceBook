@@ -1,0 +1,50 @@
+{
+    "1": {
+        "CWE": "CWE-476",
+        "name": "possible-none-type-access",
+        "File": "views/router.py",
+        "Line": "43",
+        "Code": "if self.page.route in protected_routes and not self.state.current_user:",
+        "information": "current_user 为 None 本身就是路由保护逻辑的一部分, None 表示未登录，需要跳转登录页面"
+    },
+    "2": {
+        "CWE": "CWE-398",
+        "name": "import-outside-toplevel",
+        "File": "models/database.py",
+        "Line": "462",
+        "Code": "from datetime import datetime, timedelta",
+        "information": "应该在文件最顶部引入,而不是函数中引入,但不影响程序正确性，无关紧要"
+    },
+    "3": {
+        "CWE": "CWE-563",
+        "name": "unreachable-code",
+        "File": "views/login.py",
+        "Line": "189",
+        "Code": "if not user_data: self.show_snackbar(...); return",
+        "information": "类型检查器报 unreachable, 属于之前debug的无用代码,不影响正确性"
+    },
+    "4": {
+        "CWE": "CWE-200",
+        "name": "hardcoded-url",
+        "File": "app.py",
+        "Line": "94",
+        "Code": "\"NotoSansSC\": \"https://fonts.googleapis.com/...\"",
+        "information": "硬编码 Google Fonts CDN URL , 但对于字体其实并不涉及安全风险"
+    },
+    "5": {
+        "CWE": "CWE-561",
+        "name": "unreachable-code",
+        "File": "views/records.py",
+        "Line": "532",
+        "Code": "# TODO: 跳转到编辑页面",
+        "information": "TODO 是我最初的未实现的占位符,当前不可达属于开发中的预期行为"
+    },
+    "6": {
+        "CWE": "CWE-476",
+        "name": "optional-access",
+        "File": "components/cards.py",
+        "Line": "108",
+        "Code": "category_name = category.name if category else \"未知分类\"",
+        "information": "三元表达式已确保 category 不为 None 时才访问 .name"
+    }
+}

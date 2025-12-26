@@ -1,0 +1,52 @@
+[
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 18,
+      "row": 83
+    },
+    "filename": "/home/hrime/Projects/FinanceBookApp/components/cards.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 83
+    },
+    "message": "Module level import not at top of file",
+    "noqa_row": 83,
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "F811",
+    "end_location": {
+      "column": 18,
+      "row": 83
+    },
+    "filename": "/home/hrime/Projects/FinanceBookApp/components/cards.py",
+    "fix": {
+      "applicability": "safe",
+      "edits": [
+        {
+          "content": "",
+          "end_location": {
+            "column": 1,
+            "row": 84
+          },
+          "location": {
+            "column": 1,
+            "row": 83
+          }
+        }
+      ],
+      "message": "Remove definition: `ft`"
+    },
+    "location": {
+      "column": 16,
+      "row": 83
+    },
+    "message": "Redefinition of unused `ft` from line 5",
+    "noqa_row": 83,
+    "url": "https://docs.astral.sh/ruff/rules/redefined-while-unused"
+  }
+]

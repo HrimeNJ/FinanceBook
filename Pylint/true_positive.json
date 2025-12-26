@@ -1,0 +1,44 @@
+{
+    "1": {
+        "CWE": "CWE-703",
+        "name": "broadExceptionCaught",
+        "File": "models/database.py",
+        "Line": "124",
+        "At": "W0718: Catching too general exception Exception with [except Exception as e:]"
+    },
+    "2": {
+        "CWE": "CWE-476",
+        "name": "noneDereferencePossible",
+        "File": "views/router.py",
+        "Line": "31",
+        "At": "e.page.go(self.default_route)"
+    },
+    "3": {
+        "CWE": "CWE-398",
+        "name": "unreachableCode",
+        "File": "models/database.py",
+        "Line": "150",
+        "At": "print('this line is after return')"
+    },
+    "4": {
+        "CWE": "CWE-710",
+        "name": "tooManyArguments",
+        "File": "models/database.py",
+        "Line": "382",
+        "At": "def insert_record(self, a, b, c, d, e, f, g):"
+    },
+    "5": {
+        "CWE": "CWE-401",
+        "name": "resourceNotClosed",
+        "File": "models/database.py",
+        "Line": "103",
+        "At": "conn = sqlite3.connect(self.db_path)   # no close() found"
+    },
+    "6": {
+        "CWE": "CWE-20",
+        "name": "userInputNotValidated",
+        "File": "views/records.py",
+        "Line": "215",
+        "At": "amount = float(input_value)"
+    }
+}

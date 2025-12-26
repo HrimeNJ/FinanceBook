@@ -1,0 +1,34 @@
+{
+    "1": {
+        "CWE": "CWE-703",
+        "name": "broadExceptionCaught",
+        "File": "app.py",
+        "Line": "53",
+        "At": "BLE001 Do not catch blind exception: `Exception`",
+        "Information": "捕获过于宽泛的 Exception，应该捕获具体异常类型（如 sqlite3.Error, ValueError）以便更精确的错误处理"
+    },
+    "2": {
+        "CWE": "CWE-703",
+        "name": "broadExceptionCaught",
+        "File": "models/database.py",
+        "Line": "124",
+        "At": "BLE001 Do not catch blind exception: `Exception`",
+        "Information": "数据库操作中捕获宽泛 Exception，可能掩盖关键错误（如连接失败、SQL语法错误），应捕获 sqlite3.Error"
+    },
+    "3": {
+        "CWE": "CWE-563",
+        "name": "unreachableCode",
+        "File": "models/database.py",
+        "Line": "148",
+        "At": "RET504 Unnecessary assignment to `result` before `return` statement",
+        "Information": "return 语句前不必要的赋值，result 变量赋值后立即返回，属于无效代码"
+    },
+    "4": {
+        "CWE": "CWE-398",
+        "name": "unnecessaryElif",
+        "File": "views/records.py",
+        "Line": "301",
+        "At": "RET505 Unnecessary `elif` after `return` statement",
+        "Information": "return 后的 elif 不必要，前面分支已经 return，后续应该用 if 而非 elif"
+    }
+}

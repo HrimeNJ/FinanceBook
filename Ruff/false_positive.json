@@ -1,0 +1,50 @@
+{
+    "1": {
+        "CWE": "N/A",
+        "name": "unusedLambdaArgument",
+        "File": "app.py",
+        "Line": "134",
+        "At": "ARG005 Unused lambda argument: `e`",
+        "Information": "False Positive - Flet 框架的事件处理器要求 lambda 必须接受事件参数 e，即使不使用也必须声明以匹配回调签名"
+    },
+    "2": {
+        "CWE": "CWE-665",
+        "name": "importOutsideToplevel",
+        "File": "views/dashboard.py",
+        "Line": "299",
+        "At": "PLC0415 `import` should be at the top-level of a file",
+        "Information": "在函数内部导入 datetime 模块，应该在文件顶部导入，函数内导入会影响性能且不符合 PEP8 规范"
+    },
+    "3": {
+        "CWE": "N/A",
+        "name": "missingReturnTypeAnnotation",
+        "File": "views/router.py",
+        "Line": "31",
+        "At": "ANN201 Missing return type annotation for public function `route_change`",
+        "Information": "False Positive - route_change 是 Flet 框架的路由事件处理器回调，不需要返回值类型注解，返回 None 是隐式的"
+    },
+    "4": {
+        "CWE": "N/A",
+        "name": "ambiguousUnicodeCharacter",
+        "File": "models/database.py",
+        "Line": "97",
+        "At": "RUF003 Comment contains ambiguous `，` (FULLWIDTH COMMA)",
+        "Information": "False Positive - 这是中文注释使用的中文全角标点符号，在中文环境下完全正常，不是错误"
+    },
+    "5": {
+        "CWE": "N/A",
+        "name": "variableNamingStyle",
+        "File": "views/dashboard.py",
+        "Line": "505",
+        "At": "N806 Variable `Colors` in function should be lowercase",
+        "Information": "False Positive - Colors 是 Flet 框架的枚举类引用 (ft.Colors)，使用大写是框架约定，改成小写会破坏代码可读性"
+    },
+    "6": {
+        "CWE": "N/A",
+        "name": "printFound",
+        "File": "app.py",
+        "Line": "42",
+        "At": "T201 `print` found",
+        "Information": "False Positive - 这是桌面应用程序的调试输出，用于开发阶段追踪应用初始化过程，在配置中已明确允许 (ignore T201)"
+    }
+}

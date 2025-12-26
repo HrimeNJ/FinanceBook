@@ -340,6 +340,13 @@ class AddRecordView(ft.View):
             note = self.description_field.value or ""
             record_date = datetime.strptime(self.selected_date.value, "%Y-%m-%d")
 
+            # BUG: 直接访问 current_user 而不检查是否为 None
+            # if not self.state.current_user:
+            #     self.show_snackbar("会话已过期", "error")
+            #     return
+
+            # 在访问.user_id 属性时，如果 current_user 是 None 会触发:
+            # AttributeError: 'NoneType' object has no attribute 'user_id'
             record = Record(
                 amount=amount,
                 record_type=selected_type,

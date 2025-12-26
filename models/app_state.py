@@ -33,6 +33,8 @@ class AppState:
         if self.current_user:
             self.load_categories()
             self.records = self.db.get_records(self.current_user.user_id)
+
+            # BUG: 存在状态不一致缺陷, 强制重置 filtered_records, 破坏外部视图的筛选状态
             self.filtered_records = self.records.copy()
 
     def load_categories(self):

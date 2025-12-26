@@ -1,0 +1,67 @@
+# /home/hrime/Projects/FinanceBookApp/ruff.toml
+
+target-version = "py310"
+line-length = 120
+
+[lint]
+# 启用的规则
+select = [
+    "E",      # pycodestyle errors
+    "W",      # pycodestyle warnings
+    "F",      # pyflakes
+    "S",      # flake8-bandit (security)
+    "B",      # flake8-bugbear
+    "C90",    # mccabe complexity
+    "N",      # pep8-naming
+    "UP",     # pyupgrade
+    "ANN",    # flake8-annotations
+    "ASYNC",  # flake8-async
+    "BLE",    # flake8-blind-except
+    "A",      # flake8-builtins
+    "C4",     # flake8-comprehensions
+    "T10",    # flake8-debugger
+    "ISC",    # flake8-implicit-str-concat
+    "G",      # flake8-logging-format
+    "PIE",    # flake8-pie
+    "T20",    # flake8-print
+    "PT",     # flake8-pytest-style
+    "Q",      # flake8-quotes
+    "RSE",    # flake8-raise
+    "RET",    # flake8-return
+    "SIM",    # flake8-simplify
+    "TID",    # flake8-tidy-imports
+    "ARG",    # flake8-unused-arguments
+    "PTH",    # flake8-use-pathlib
+    "ERA",    # eradicate
+    "PL",     # pylint
+    "TRY",    # tryceratops
+    "RUF",    # ruff-specific rules
+]
+
+# 排除目录
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "FinanceBookExports",
+    "Pylint",
+    "ChatGPT",
+    "Ruff",
+]
+
+[lint.per-file-ignores]
+"__init__.py" = ["F401"]  # 允许未使用的导入
+"views/*.py" = ["ARG001", "ARG002"]  # Flet 事件处理器必需参数
+"components/*.py" = ["ARG001"]  # UI 组件回调参数
+
+[lint.mccabe]
+max-complexity = 15
+
+[lint.pylint]
+max-args = 7
+max-branches = 15
+max-statements = 60
+
+[lint.flake8-bugbear]
+extend-immutable-calls = ["flet.Control", "ft.Control"]

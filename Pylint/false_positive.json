@@ -1,0 +1,44 @@
+{
+    "1": {
+        "CWE": "None",
+        "name": "missingClassDocstring",
+        "File": "models/user.py",
+        "Line": "11",
+        "At": "class User:"
+    },
+    "2": {
+        "CWE": "None",
+        "name": "lineTooLong",
+        "File": "models/database.py",
+        "Line": "254",
+        "At": "C0301: Line too long (109/100)"
+    },
+    "3": {
+        "CWE": "None",
+        "name": "importOutsideTopLevel",
+        "File": "views/dashboard.py",
+        "Line": "299",
+        "At": "import matplotlib.pyplot as plt"
+    },
+    "4": {
+        "CWE": "None",
+        "name": "lambdaNotNecessary",
+        "File": "views/register.py",
+        "Line": "207",
+        "At": "on_click=lambda e: self.submit()"
+    },
+    "5": {
+        "CWE": "None",
+        "name": "variableDoesNotFollowSnakeCase",
+        "File": "views/dashboard.py",
+        "Line": "505",
+        "At": "Colors = {...}"
+    },
+    "6": {
+        "CWE": "None",
+        "name": "tooFewPublicMethods",
+        "File": "app.py",
+        "Line": "17",
+        "At": "class FinanceBookApp:"
+    }
+}

@@ -1,0 +1,827 @@
+************* Module re ord
+models/record.py:11:0: C0115: Missing class docstring (missing-class-docstring)
+models/record.py:11:0: R0902: Too many instance attributes (9/7) (too-many-instance-attributes)
+************* Module category
+models/category.py:10:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module database
+models/database.py:145:0: C0303: Trailing whitespace (trailing-whitespace)
+models/database.py:254:0: C0301: Line too long (109/100) (line-too-long)
+models/database.py:445:0: C0303: Trailing whitespace (trailing-whitespace)
+models/database.py:447:0: C0303: Trailing whitespace (trailing-whitespace)
+models/database.py:463:0: C0301: Line too long (113/100) (line-too-long)
+models/database.py:467:0: C0301: Line too long (114/100) (line-too-long)
+models/database.py:124:15: W0718: Catching too general exception Exception (broad-exception-caught)
+models/database.py:150:8: W0101: Unreachable code (unreachable)
+models/database.py:382:4: R0913: Too many arguments (7/5) (too-many-arguments)
+models/database.py:382:4: R0917: Too many positional arguments (7/5) (too-many-positional-arguments)
+models/database.py:493:8: W0621: Redefining name 'datetime' from outer scope (line 9) (redefined-outer-name)
+models/database.py:493:8: W0404: Reimport 'datetime' (imported line 9) (reimported)
+models/database.py:493:8: C0415: Import outside toplevel (datetime.datetime, datetime.timedelta) (import-outside-toplevel)
+************* Module user
+models/user.py:11:0: C0115: Missing class docstring (missing-class-docstring)
+************* Module export
+models/export.py:113:15: W0718: Catching too general exception Exception (broad-exception-caught)
+models/export.py:162:15: W0718: Catching too general exception Exception (broad-exception-caught)
+************* Module views.router
+views/router.py:31:27: W0613: Unused argument 'e' (unused-argument)
+views/router.py:69:23: W0613: Unused argument 's' (unused-argument)
+************* Module views.dashboard
+views/dashboard.py:241:0: C0301: Line too long (105/100) (line-too-long)
+views/dashboard.py:444:0: C0301: Line too long (103/100) (line-too-long)
+views/dashboard.py:280:15: W0718: Catching too general exception Exception (broad-exception-caught)
+views/dashboard.py:299:12: W0621: Redefining name 'datetime' from outer scope (line 5) (redefined-outer-name)
+views/dashboard.py:346:15: W0718: Catching too general exception Exception (broad-exception-caught)
+views/dashboard.py:299:12: W0404: Reimport 'datetime' (imported line 5) (reimported)
+views/dashboard.py:299:12: C0415: Import outside toplevel (datetime.datetime, datetime.timedelta) (import-outside-toplevel)
+views/dashboard.py:469:15: W0718: Catching too general exception Exception (broad-exception-caught)
+views/dashboard.py:477:28: W0613: Unused argument 'e' (unused-argument)
+views/dashboard.py:505:8: C0103: Variable name "Colors" doesn't conform to snake_case naming style (invalid-name)
+************* Module views.settings
+views/settings.py:120:0: C0301: Line too long (101/100) (line-too-long)
+views/settings.py:122:0: C0301: Line too long (104/100) (line-too-long)
+views/settings.py:135:0: C0301: Line too long (104/100) (line-too-long)
+views/settings.py:215:0: C0301: Line too long (104/100) (line-too-long)
+views/settings.py:229:0: C0301: Line too long (104/100) (line-too-long)
+views/settings.py:243:0: C0301: Line too long (104/100) (line-too-long)
+views/settings.py:292:0: C0301: Line too long (102/100) (line-too-long)
+views/settings.py:11:0: R0902: Too many instance attributes (10/7) (too-many-instance-attributes)
+views/settings.py:369:30: W0613: Unused argument 'e' (unused-argument)
+views/settings.py:373:29: W0613: Unused argument 'e' (unused-argument)
+views/settings.py:380:25: W0613: Unused argument 'e' (unused-argument)
+views/settings.py:377:30: W0613: Unused argument 'e' (unused-argument)
+views/settings.py:445:26: W0613: Unused argument 'e' (unused-argument)
+views/settings.py:449:29: W0613: Unused argument 'e' (unused-argument)
+views/settings.py:465:28: W0613: Unused argument 'e' (unused-argument)
+views/settings.py:472:8: C0103: Variable name "Colors" doesn't conform to snake_case naming style (invalid-name)
+************* Module views.register
+views/register.py:12:0: R0902: Too many instance attributes (9/7) (too-many-instance-attributes)
+views/register.py:211:15: W0718: Catching too general exception Exception (broad-exception-caught)
+views/register.py:207:37: W0108: Lambda may not be necessary (unnecessary-lambda)
+views/register.py:161:30: W0613: Unused argument 'e' (unused-argument)
+views/register.py:221:8: C0415: Import outside toplevel (time) (import-outside-toplevel)
+views/register.py:228:8: C0103: Variable name "Colors" doesn't conform to snake_case naming style (invalid-name)
+************* Module views.records
+views/records.py:482:0: C0301: Line too long (106/100) (line-too-long)
+views/records.py:529:9: W0511: TODO: 跳转到编辑页面，传递记录ID (fixme)
+views/records.py:583:9: W0511: TODO: 实现实际的导出功能 (fixme)
+views/records.py:14:0: R0902: Too many instance attributes (11/7) (too-many-instance-attributes)
+views/records.py:299:8: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+views/records.py:354:8: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+views/records.py:532:8: W0101: Unreachable code (unreachable)
+views/records.py:537:25: W0613: Unused argument 'e' (unused-argument)
+views/records.py:576:29: W0613: Unused argument 'e' (unused-argument)
+views/records.py:588:28: W0613: Unused argument 'e' (unused-argument)
+************* Module views.login
+views/login.py:204:15: W0718: Catching too general exception Exception (broad-exception-caught)
+views/login.py:167:27: W0613: Unused argument 'e' (unused-argument)
+views/login.py:237:8: C0103: Variable name "Colors" doesn't conform to snake_case naming style (invalid-name)
+************* Module views.add_record
+views/add_record.py:13:0: R0902: Too many instance attributes (10/7) (too-many-instance-attributes)
+views/add_record.py:316:30: W0613: Unused argument 'record_type' (unused-argument)
+views/add_record.py:367:15: W0718: Catching too general exception Exception (broad-exception-caught)
+views/add_record.py:324:26: W0613: Unused argument 'e' (unused-argument)
+views/add_record.py:370:28: W0613: Unused argument 'e' (unused-argument)
+views/add_record.py:377:8: C0103: Variable name "Colors" doesn't conform to snake_case naming style (invalid-name)
+************* Module views.statistics
+views/statistics.py:265:4: R0914: Too many local variables (29/15) (too-many-locals)
+views/statistics.py:350:15: W0718: Catching too general exception Exception (broad-exception-caught)
+views/statistics.py:352:12: C0415: Import outside toplevel (traceback) (import-outside-toplevel)
+views/statistics.py:265:4: R0912: Too many branches (13/12) (too-many-branches)
+views/statistics.py:759:8: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+views/statistics.py:781:8: R1705: Unnecessary "elif" after "return", remove the leading "el" from "elif" (no-else-return)
+views/statistics.py:850:4: R0913: Too many arguments (6/5) (too-many-arguments)
+views/statistics.py:850:4: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+views/statistics.py:885:28: W0613: Unused argument 'e' (unused-argument)
+************* Module components.cards
+components/cards.py:83:0: W0404: Reimport 'flet' (imported line 5) (reimported)
+components/cards.py:83:0: C0413: Import "import flet as ft" should be placed at the top of the module (wrong-import-position)
+components/cards.py:145:4: R0913: Too many arguments (6/5) (too-many-arguments)
+components/cards.py:145:4: R0917: Too many positional arguments (6/5) (too-many-positional-arguments)
+************* Module app
+app.py:94:0: C0301: Line too long (115/100) (line-too-long)
+app.py:53:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app.py:120:15: W0718: Catching too general exception Exception (broad-exception-caught)
+app.py:17:0: R0903: Too few public methods (1/2) (too-few-public-methods)
+************* Module main
+main.py:1:0: R0801: Similar lines in 2 files
+==views.records:[187:239]
+==views.statistics:[214:266]
+                                        ]
+                                    ),
+                                    bgcolor=ft.Colors.WHITE,
+                                    border_radius=16,
+                                    padding=ft.padding.all(20),
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 底部留白
+                                ft.Container(height=50),
+                            ],
+                            spacing=0,
+                            scroll=ft.ScrollMode.AUTO,  # 启用滚动
+                        ),
+                        expand=True,  # 占满剩余空间
+                    ),
+                ],
+                spacing=0,
+            ),
+            bgcolor=ft.Colors.GREY_50,
+            expand=True,
+            padding=0,
+        )
+
+        return ft.Row([sidebar, main_content], spacing=0, expand=True)
+
+    def create_page_header(self, title, subtitle=""):
+        """创建页面标题"""
+        return ft.Container(
+            content=ft.Row(
+                [
+                    ft.Text(
+                        title,
+                        size=28,
+                        weight=ft.FontWeight.BOLD,
+                        color=ft.Colors.GREY_900,
+                    ),
+                    (
+                        ft.Text(subtitle, size=16, color=ft.Colors.GREY_600)
+                        if subtitle
+                        else ft.Container()
+                    ),
+                ],
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            ),
+            padding=ft.padding.symmetric(horizontal=30, vertical=20),
+        )
+
+    def get_statistics(self):
+        """获取统计数据""" (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.records:[192:234]
+==views.settings:[315:357]
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 底部留白
+                                ft.Container(height=50),
+                            ],
+                            spacing=0,
+                            scroll=ft.ScrollMode.AUTO,  # 启用滚动
+                        ),
+                        expand=True,  # 占满剩余空间
+                    ),
+                ],
+                spacing=0,
+            ),
+            bgcolor=ft.Colors.GREY_50,
+            expand=True,
+            padding=0,
+        )
+
+        return ft.Row([sidebar, main_content], spacing=0, expand=True)
+
+    def create_page_header(self, title, subtitle=""):
+        """创建页面标题"""
+        return ft.Container(
+            content=ft.Row(
+                [
+                    ft.Text(
+                        title,
+                        size=28,
+                        weight=ft.FontWeight.BOLD,
+                        color=ft.Colors.GREY_900,
+                    ),
+                    (
+                        ft.Text(subtitle, size=16, color=ft.Colors.GREY_600)
+                        if subtitle
+                        else ft.Container()
+                    ),
+                ],
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[184:216]
+==views.records:[187:218]
+                                        ]
+                                    ),
+                                    bgcolor=ft.Colors.WHITE,
+                                    border_radius=16,
+                                    padding=ft.padding.all(20),
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 底部留白
+                                ft.Container(height=50),
+                            ],
+                            spacing=0,
+                            scroll=ft.ScrollMode.AUTO,
+                        ),
+                        expand=True,
+                    ),
+                ],
+                spacing=0,
+            ),
+            bgcolor=ft.Colors.GREY_50,
+            expand=True,
+            padding=0,
+        )
+
+        return ft.Row([sidebar, main_content], spacing=0, expand=True)
+
+    def create_page_header(self, title, subtitle=""):
+        """创建页面标题"""
+        return ft.Container( (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[189:216]
+==views.settings:[315:341]
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 底部留白
+                                ft.Container(height=50),
+                            ],
+                            spacing=0,
+                            scroll=ft.ScrollMode.AUTO,  # 启用滚动
+                        ),
+                        expand=True,  # 占满剩余空间
+                    ),
+                ],
+                spacing=0,
+            ),
+            bgcolor=ft.Colors.GREY_50,
+            expand=True,
+            padding=0,
+        )
+
+        return ft.Row([sidebar, main_content], spacing=0, expand=True)
+
+    def create_page_header(self, title, subtitle=""):
+        """创建页面标题"""
+        return ft.Container( (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.add_record:[254:280]
+==views.settings:[336:362]
+        return ft.Row([sidebar, main_content], spacing=0, expand=True)
+
+    def create_page_header(self, title, subtitle=""):
+        """创建页面标题"""
+        return ft.Container(
+            content=ft.Row(
+                [
+                    ft.Text(
+                        title,
+                        size=28,
+                        weight=ft.FontWeight.BOLD,
+                        color=ft.Colors.GREY_900,
+                    ),
+                    (
+                        ft.Text(subtitle, size=16, color=ft.Colors.GREY_600)
+                        if subtitle
+                        else ft.Container()
+                    ),
+                ],
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            ),
+            padding=ft.padding.symmetric(horizontal=30, vertical=30),
+        )
+
+    def create_quick_action_card(self, title, amount, icon, color):
+        """创建快速操作卡片""" (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==components.cards:[59:78]
+==views.dashboard:[219:238]
+            [
+                ft.Text(
+                    title,
+                    size=28,
+                    weight=ft.FontWeight.BOLD,
+                    color=ft.Colors.GREY_900,
+                ),
+                (
+                    ft.Text(
+                        subtitle,
+                        size=16,
+                        color=ft.Colors.GREY_600,
+                    )
+                    if subtitle
+                    else ft.Container()
+                ),
+            ],
+            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+        ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.add_record:[254:275]
+==views.records:[213:234]
+        return ft.Row([sidebar, main_content], spacing=0, expand=True)
+
+    def create_page_header(self, title, subtitle=""):
+        """创建页面标题"""
+        return ft.Container(
+            content=ft.Row(
+                [
+                    ft.Text(
+                        title,
+                        size=28,
+                        weight=ft.FontWeight.BOLD,
+                        color=ft.Colors.GREY_900,
+                    ),
+                    (
+                        ft.Text(subtitle, size=16, color=ft.Colors.GREY_600)
+                        if subtitle
+                        else ft.Container()
+                    ),
+                ],
+                alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+            ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[147:168]
+==views.records:[152:173]
+                                                    ),
+                                                ],
+                                                spacing=16,
+                                            ),
+                                        ]
+                                    ),
+                                    bgcolor=ft.Colors.WHITE,
+                                    border_radius=16,
+                                    padding=ft.padding.all(20),
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 记录列表
+                                ft.Container(
+                                    content=ft.Column(
+                                        [
+                                            ft.Row(
+                                                [
+                                                    ft.Text( (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[145:162]
+==views.statistics:[208:225]
+                                                        ),
+                                                        col={"sm": 12, "md": 4},
+                                                    ),
+                                                ],
+                                                spacing=16,
+                                            ),
+                                        ]
+                                    ),
+                                    bgcolor=ft.Colors.WHITE,
+                                    border_radius=16,
+                                    padding=ft.padding.all(20),
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 最近交易 - 显示真实数据 (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.records:[585:609]
+==views.statistics:[882:906]
+        )
+
+    def handle_logout(self, e):
+        """处理登出"""
+        self.state.clear_user_data()
+        self.go("/welcome")
+
+    def show_snackbar(self, message: str, message_type: str = "info"):
+        """显示提示消息"""
+        colors = {
+            "success": ft.Colors.GREEN,
+            "error": ft.Colors.RED,
+            "info": ft.Colors.BLUE,
+        }
+
+        snack_bar = ft.SnackBar(
+            content=ft.Text(message),
+            bgcolor=colors.get(message_type, ft.Colors.BLUE),
+            show_close_icon=True,
+        )
+
+        self.page.overlay.append(snack_bar)
+        snack_bar.open = True
+        self.page.update() (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.add_record:[371:391]
+==views.settings:[466:486]
+        self.state.clear_user_data()
+        self.go("/welcome")
+
+    def show_snackbar(self, message: str, message_type: str = "info"):
+        """显示提示消息"""
+        Colors = {
+            "success": ft.Colors.GREEN,
+            "error": ft.Colors.RED,
+            "info": ft.Colors.BLUE,
+        }
+
+        snack_bar = ft.SnackBar(
+            content=ft.Text(message),
+            bgcolor=Colors.get(message_type, ft.Colors.BLUE),
+            show_close_icon=True,
+        )
+
+        self.page.overlay.append(snack_bar)
+        snack_bar.open = True
+        self.page.update() (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.records:[152:167]
+==views.statistics:[210:225]
+                                                    ),
+                                                ],
+                                                spacing=16,
+                                            ),
+                                        ]
+                                    ),
+                                    bgcolor=ft.Colors.WHITE,
+                                    border_radius=16,
+                                    padding=ft.padding.all(20),
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 底部留白 (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[504:519]
+==views.settings:[471:486]
+        Colors = {
+            "success": ft.Colors.GREEN,
+            "error": ft.Colors.RED,
+            "info": ft.Colors.BLUE,
+        }
+
+        snack_bar = ft.SnackBar(
+            content=ft.Text(message),
+            bgcolor=Colors.get(message_type, ft.Colors.BLUE),
+            show_close_icon=True,
+        )
+
+        self.page.overlay.append(snack_bar)
+        snack_bar.open = True
+        self.page.update() (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.add_record:[376:391]
+==views.register:[227:242]
+        Colors = {
+            "success": ft.Colors.GREEN,
+            "error": ft.Colors.RED,
+            "info": ft.Colors.BLUE,
+        }
+
+        snack_bar = ft.SnackBar(
+            content=ft.Text(message),
+            bgcolor=Colors.get(message_type, ft.Colors.BLUE),
+            show_close_icon=True,
+        )
+
+        self.page.overlay.append(snack_bar)
+        snack_bar.open = True
+        self.page.update() (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[151:162]
+==views.records:[187:198]
+                                        ]
+                                    ),
+                                    bgcolor=ft.Colors.WHITE,
+                                    border_radius=16,
+                                    padding=ft.padding.all(20),
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 底部留白 (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[184:196]
+==views.records:[156:167]
+                                        ]
+                                    ),
+                                    bgcolor=ft.Colors.WHITE,
+                                    border_radius=16,
+                                    padding=ft.padding.all(20),
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                    # 移除expand=True，让它根据内容自适应高度
+                                ),
+                                # 底部留白 (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[152:163]
+==views.statistics:[71:82]
+                                    ),
+                                    bgcolor=ft.Colors.WHITE,
+                                    border_radius=16,
+                                    padding=ft.padding.all(20),
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 最近交易 - 显示真实数据
+                                ft.Container( (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==components.cards:[57:67]
+==views.settings:[340:350]
+        return ft.Container(
+            content=ft.Row(
+                [
+                    ft.Text(
+                        title,
+                        size=28,
+                        weight=ft.FontWeight.BOLD,
+                        color=ft.Colors.GREY_900,
+                    ),
+                    ( (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[103:112]
+==views.records:[123:132]
+                                                                    color=ft.Colors.WHITE,
+                                                                    shape=ft.RoundedRectangleBorder(
+                                                                        radius=8
+                                                                    ),
+                                                                ),
+                                                                on_click=lambda e: self.go(
+                                                                    "/add_record"
+                                                                ),
+                                                            ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[400:410]
+==views.records:[391:401]
+                    content=ft.Row(
+                        [
+                            # 图标
+                            ft.Container(
+                                content=ft.Icon(
+                                    (
+                                        ft.Icons.ARROW_UPWARD
+                                        if record.record_type == "income"
+                                        else ft.Icons.ARROW_DOWNWARD
+                                    ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[185:196]
+==views.statistics:[71:81]
+                                    ),
+                                    bgcolor=ft.Colors.WHITE,
+                                    border_radius=16,
+                                    padding=ft.padding.all(20),
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                    # 移除expand=True，让它根据内容自适应高度
+                                ),
+                                # 底部留白 (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[156:167]
+==views.settings:[152:163]
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 最近交易 - 显示真实数据
+                                ft.Container(
+                                    content=ft.Column(
+                                        [
+                                            ft.Row(
+                                                [ (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[156:165]
+==views.settings:[261:270]
+                                    margin=ft.margin.symmetric(
+                                        horizontal=20, vertical=10
+                                    ),
+                                    border=ft.border.all(1, ft.Colors.GREY_200),
+                                ),
+                                # 关于信息
+                                ft.Container(
+                                    content=ft.Column(
+                                        [ (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[219:227]
+==views.settings:[342:350]
+                [
+                    ft.Text(
+                        title,
+                        size=28,
+                        weight=ft.FontWeight.BOLD,
+                        color=ft.Colors.GREY_900,
+                    ),
+                    ( (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[510:519]
+==views.login:[245:255]
+        snack_bar = ft.SnackBar(
+            content=ft.Text(message),
+            bgcolor=Colors.get(message_type, ft.Colors.BLUE),
+            show_close_icon=True,
+        )
+
+        self.page.overlay.append(snack_bar)
+        snack_bar.open = True
+        self.page.update() (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.records:[90:99]
+==views.settings:[75:84]
+                    ft.Container(
+                        content=ft.Column(
+                            [
+                                # 筛选栏
+                                ft.Container(
+                                    content=ft.Column(
+                                        [
+                                            ft.Row(
+                                                [ (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.add_record:[174:182]
+==views.settings:[130:138]
+                                                                    icon=ft.Icons.SAVE,
+                                                                    style=ft.ButtonStyle(
+                                                                        bgcolor=ft.Colors.BLUE_600,
+                                                                        color=ft.Colors.WHITE,
+                                                                        shape=ft.RoundedRectangleBorder(
+                                                                            radius=8
+                                                                        ),
+                                                                    ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[101:108]
+==views.records:[109:116]
+                                                            style=ft.ButtonStyle(
+                                                                bgcolor=ft.Colors.GREEN_600,
+                                                                color=ft.Colors.WHITE,
+                                                                shape=ft.RoundedRectangleBorder(
+                                                                    radius=8
+                                                                ),
+                                                            ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.add_record:[175:182]
+==views.dashboard:[135:142]
+                                            style=ft.ButtonStyle(
+                                                bgcolor=ft.Colors.BLUE_600,
+                                                color=ft.Colors.WHITE,
+                                                shape=ft.RoundedRectangleBorder(
+                                                    radius=8
+                                                ),
+                                            ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.records:[108:116]
+==views.settings:[210:218]
+                                                                    icon=ft.Icons.DOWNLOAD,
+                                                                    style=ft.ButtonStyle(
+                                                                        bgcolor=ft.Colors.GREEN_600,
+                                                                        color=ft.Colors.WHITE,
+                                                                        shape=ft.RoundedRectangleBorder(
+                                                                            radius=8
+                                                                        ),
+                                                                    ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.add_record:[82:95]
+==views.settings:[59:73]
+        )
+
+    def create_settings_layout(self):
+        """创建设置布局"""
+        # 侧边栏
+        sidebar = Sidebar(
+            self.page, self.state.current_user, self.handle_logout, self.go
+        ).create_sidebar()
+
+        # 主内容
+        main_content = ft.Container(
+            content=ft.Column(
+                [
+                    # 页面标题 - 固定在顶部 (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.login:[116:123]
+==views.welcome:[19:26]
+            content=ft.Column(
+                [
+                    ft.Container(
+                        content=ft.Column(
+                            [
+                                ft.Icon(
+                                    ft.Icons.ACCOUNT_BALANCE_WALLET, (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[28:37]
+==views.settings:[64:73]
+        sidebar = Sidebar(
+            self.page, self.state.current_user, self.handle_logout, self.go
+        ).create_sidebar()
+
+        # 主内容
+        main_content = ft.Container(
+            content=ft.Column(
+                [
+                    # 页面标题 - 固定在顶部 (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[135:142]
+==views.settings:[131:138]
+                                                            style=ft.ButtonStyle(
+                                                                bgcolor=ft.Colors.BLUE_600,
+                                                                color=ft.Colors.WHITE,
+                                                                shape=ft.RoundedRectangleBorder(
+                                                                    radius=8
+                                                                ),
+                                                            ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[101:108]
+==views.settings:[211:218]
+                                                            style=ft.ButtonStyle(
+                                                                bgcolor=ft.Colors.GREEN_600,
+                                                                color=ft.Colors.WHITE,
+                                                                shape=ft.RoundedRectangleBorder(
+                                                                    radius=8
+                                                                ),
+                                                            ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[118:125]
+==views.settings:[239:246]
+                                                                    style=ft.ButtonStyle(
+                                                                        bgcolor=ft.Colors.RED_600,
+                                                                        color=ft.Colors.WHITE,
+                                                                        shape=ft.RoundedRectangleBorder(
+                                                                            radius=8
+                                                                        ),
+                                                                    ), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[135:143]
+==views.records:[121:129]
+                                                            style=ft.ButtonStyle(
+                                                                bgcolor=ft.Colors.BLUE_600,
+                                                                color=ft.Colors.WHITE,
+                                                                shape=ft.RoundedRectangleBorder(
+                                                                    radius=8
+                                                                ),
+                                                            ),
+                                                            on_click=lambda e: self.go( (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.dashboard:[505:512]
+==views.records:[595:602]
+            "success": ft.Colors.GREEN,
+            "error": ft.Colors.RED,
+            "info": ft.Colors.BLUE,
+        }
+
+        snack_bar = ft.SnackBar(
+            content=ft.Text(message), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.settings:[472:479]
+==views.statistics:[892:899]
+            "success": ft.Colors.GREEN,
+            "error": ft.Colors.RED,
+            "info": ft.Colors.BLUE,
+        }
+
+        snack_bar = ft.SnackBar(
+            content=ft.Text(message), (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==components.sidebar:[169:181]
+==views.settings:[358:370]
+        )
+
+    def toggle_theme(self, e):
+        """切换主题"""
+        if e.control.value:
+            self.page.theme_mode = ft.ThemeMode.DARK
+        else:
+            self.page.theme_mode = ft.ThemeMode.LIGHT
+        self.page.update()
+
+    def handle_logout(self, e):
+        """处理登出""" (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.login:[213:221]
+==views.settings:[362:370]
+        if e.control.value:
+            self.page.theme_mode = ft.ThemeMode.DARK
+        else:
+            self.page.theme_mode = ft.ThemeMode.LIGHT
+        self.page.update()
+
+    def create_feature_item(self, icon_name, text):
+        """创建特性项目""" (duplicate-code)
+main.py:1:0: R0801: Similar lines in 2 files
+==views.login:[40:45]
+==views.register:[46:51]
+            height=60,
+            password=True,
+            can_reveal_password=True,
+            prefix_icon=ft.Icons.LOCK,
+            border_radius=12, (duplicate-code)
+
+------------------------------------------------------------------
+Your code has been rated at 8.97/10 (previous run: 9.00/10, -0.03)
+

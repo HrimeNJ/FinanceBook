@@ -179,7 +179,8 @@ class LoginView(ft.View):
         self.page.update()
 
         try:
-            # 查询用户
+            # BUG: 查询用户, 直接对密码进行弱密码hash (SHA256无盐)
+            # 容易导致不同密码最后得到重复/相同的结果
             password_hash = hashlib.sha256(password.encode()).hexdigest()
             user_data = self.state.db.query(
                 "SELECT * FROM users WHERE username = ?", (username,)
@@ -239,12 +240,16 @@ class LoginView(ft.View):
             "info": ft.Colors.BLUE,
         }
 
-        snack_bar = ft.SnackBar(
-            content=ft.Text(message),
-            bgcolor=Colors.get(message_type, ft.Colors.BLUE),
-            show_close_icon=True,
-        )
+        # BUG: 不断添加对象到 overlay，从不清理
+        # 前面9个会永远留在 overlay 中
+        for _ in range(10):
+            snack_bar = ft.SnackBar(
+                content=ft.Text(message),
+                bgcolor=Colors.get(message_type, ft.Colors.BLUE),
+                show_close_icon=True,
+            )
 
-        self.page.overlay.append(snack_bar)
+            self.page.overlay.append(snack_bar)
+
         snack_bar.open = True
         self.page.update()
