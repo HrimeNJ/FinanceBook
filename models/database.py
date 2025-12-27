@@ -13,6 +13,14 @@ from models.category import Category
 from models.record import Record
 from models.user import User
 
+def adapt_datetime(dt):
+    return dt.isoformat()
+
+def convert_datetime(s):
+    return datetime.fromisoformat(s.decode())
+
+sqlite3.register_adapter(datetime, adapt_datetime)
+sqlite3.register_converter("timestamp", convert_datetime)
 
 class DatabaseManager:
     """
@@ -176,6 +184,7 @@ class DatabaseManager:
                     "INSERT INTO users (username, password_hash, email) VALUES (?, ?, ?)",
                     (user.username, user.password_hash, user.email),
                 )
+                user.user_id = cursor.lastrowid
                 conn.commit()
                 return True
         except sqlite3.Error as e:
@@ -248,6 +257,7 @@ class DatabaseManager:
                         "INSERT INTO categories (name, parent_id, is_active) VALUES (?, ?, ?)",
                         (category.name, category.parent_id, category.is_active),
                     )
+                    category.category_id = cursor.lastrowid
                 else:
                     # 更新现有分类
                     cursor.execute(
@@ -329,6 +339,7 @@ class DatabaseManager:
                             record.user_id,
                         ),
                     )
+                    record.record_id = cursor.lastrowid
                 else:
                     # 更新现有记录
                     cursor.execute(
@@ -405,10 +416,13 @@ class DatabaseManager:
         params = [user_id]
 
         if start_date and end_date:
+            if len(start_date) == 10:  # 只有日期，没有时间
+                start_date = f"{start_date} 00:00:00"
+            if len(end_date) == 10:
+                end_date = f"{end_date} 23:59:59"
+
             sql += " AND date BETWEEN ? AND ?"
             params.extend([start_date, end_date])
-
-        sql += f" ORDER BY {order_by}"
 
         # BUG: 直接拼接用户输入，未经验证
         if sort_column:

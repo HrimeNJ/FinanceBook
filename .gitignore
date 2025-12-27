@@ -36,3 +36,5 @@ dist/
 FinanceBookExports/
 
 report.md
+
+*.zip
