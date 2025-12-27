@@ -143,18 +143,6 @@ class DatabaseManager:
         Returns:
             List[Dict]: 查询结果列表
         """
-        # BUG: 每次都创建新连接，不复用
-        # 在高频操作时会耗尽系统资源
-        conn = sqlite3.connect(self.db_path)  # 不使用 with
-        conn.row_factory = sqlite3.Row
-        cursor = conn.cursor()
-        cursor.execute(sql, params)
-        result = [dict(row) for row in cursor.fetchall()]
-        
-        # BUG: 故意不关闭连接，模拟泄漏
-        # conn.close()  # 注释掉关闭操作
-        return result
-
         try:
             with sqlite3.connect(self.db_path) as conn:
                 conn.row_factory = sqlite3.Row
@@ -412,6 +400,27 @@ class DatabaseManager:
         Returns:
             List[Record]: 记录对象列表
         """
+        # 验证 order_by 参数，防止 SQL 注入
+        ALLOWED_ORDER_COLUMNS = ['date', 'amount', 'record_type', 'created_at', 'updated_at']
+        ALLOWED_ORDER_DIRECTIONS = ['ASC', 'DESC']
+
+        # 解析 order_by 参数
+        order_parts = order_by.split()
+        if len(order_parts) == 2:
+            column, direction = order_parts
+        elif len(order_parts) == 1:
+            column = order_parts[0]
+            direction = 'DESC'
+        else:
+            column = 'date'
+            direction = 'DESC'
+        
+        # 验证列名和排序方向
+        if column not in ALLOWED_ORDER_COLUMNS:
+            column = 'date'
+        if direction.upper() not in ALLOWED_ORDER_DIRECTIONS:
+            direction = 'DESC'
+
         sql = "SELECT * FROM records WHERE user_id = ?"
         params = [user_id]
 
@@ -424,17 +433,12 @@ class DatabaseManager:
             sql += " AND date BETWEEN ? AND ?"
             params.extend([start_date, end_date])
 
-        # BUG: 直接拼接用户输入，未经验证
-        if sort_column:
-            # 危险! 如果 sort_column 来自用户输入，可以注入任意SQL
-            # 例如: sort_column = "date; DROP TABLE records--"
-            sql += f" ORDER BY {sort_column} {order_by}"
-        else:
-            sql += f" ORDER BY {order_by}"
+        sql += f" ORDER BY {column} {direction}"
 
-        if limit:
-            # BUG: limit 也应该参数化
-            sql += f" LIMIT {limit}"  # 也可能被注入
+        # 参数化 LIMIT 子句
+        if limit is not None and isinstance(limit, int) and limit > 0:
+            sql += " LIMIT ?"
+            params.append(limit)
 
         results = self.query(sql, tuple(params))
         return [Record.from_dict(row) for row in results]
@@ -452,12 +456,20 @@ class DatabaseManager:
         result = self.query("SELECT * FROM records WHERE record_id = ?", (record_id,))
         return Record.from_dict(result[0]) if result else None
 
-    def get_all_records(self, user_id: int) -> List[Record]:
-        """加载所有记录"""
-        # BUG: 没有 LIMIT，如果用户有10万条记录会内存溢出
-        sql = "SELECT * FROM records WHERE user_id = ? ORDER BY date DESC"
+    def get_all_records(self, user_id: int, limit: int = 10000) -> List[Record]:
+        """
+        加载所有记录
         
-        results = self.query(sql, (user_id,))
+        Args:
+            user_id (int): 用户ID
+            limit (int): 最大返回数量,默认10000条(防止内存溢出)
+        
+        Returns:
+            List[Record]: 记录列表
+        """
+        sql = "SELECT * FROM records WHERE user_id = ? ORDER BY date DESC LIMIT ?"
+        
+        results = self.query(sql, (user_id, limit))
         
         return [Record.from_dict(row) for row in results]
 

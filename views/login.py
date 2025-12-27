@@ -240,16 +240,15 @@ class LoginView(ft.View):
             "info": ft.Colors.BLUE,
         }
 
-        # BUG: 不断添加对象到 overlay，从不清理
-        # 前面9个会永远留在 overlay 中
-        for _ in range(10):
-            snack_bar = ft.SnackBar(
-                content=ft.Text(message),
-                bgcolor=Colors.get(message_type, ft.Colors.BLUE),
-                show_close_icon=True,
-            )
+        self.page.overlay.clear()
 
-            self.page.overlay.append(snack_bar)
+        snack_bar = ft.SnackBar(
+            content=ft.Text(message),
+            bgcolor=Colors.get(message_type, ft.Colors.BLUE),
+            show_close_icon=True,
+            duration=3000
+        )
 
+        self.page.overlay.append(snack_bar)
         snack_bar.open = True
         self.page.update()

@@ -41,29 +41,55 @@ class Record:
     def from_dict(cls, data: dict) -> "Record":
         """从字典创建记录对象"""
 
-        # BUG: 直接使用输入数据，不验证格式
-        # 比如: 如果 data['date'] 是恶意字符串会崩溃, amount 可能不是数字, 都有可能导致程序崩溃
+        try:
+            amount = float(data.get("amount", 0.0))
+        except (ValueError, TypeError):
+            amount = 0.0
+        
+        try:
+            date = datetime.fromisoformat(data["date"]) if data.get("date") else datetime.now()
+        except (ValueError, TypeError, KeyError):
+            date = datetime.now()
+        
+        record_type = data.get("record_type", "")
+        if record_type not in ["income", "expense", ""]:
+            record_type = ""
+        
+        try:
+            record_id = int(data["record_id"]) if data.get("record_id") is not None else None
+        except (ValueError, TypeError):
+            record_id = None
 
+        try:
+            category_id = int(data.get("category_id", 0))
+        except (ValueError, TypeError):
+            category_id = 0
+        
+        try:
+            user_id = int(data.get("user_id", 0))
+        except (ValueError, TypeError):
+            user_id = 0
+        
+        try:
+            created_at = datetime.fromisoformat(data["created_at"]) if data.get("created_at") else None
+        except (ValueError, TypeError, KeyError):
+            created_at = None
+        
+        try:
+            updated_at = datetime.fromisoformat(data["updated_at"]) if data.get("updated_at") else None
+        except (ValueError, TypeError, KeyError):
+            updated_at = None
+
+        note = str(data.get("note", "")) if data.get("note") is not None else ""
+        
         return cls(
-            record_id=data.get("record_id"),
-            amount=data.get("amount", 0.0),
-            date=(
-                datetime.fromisoformat(data["date"])
-                if data.get("date")
-                else datetime.now()
-            ),
-            record_type=data.get("record_type", ""),
-            note=data.get("note", ""),
-            category_id=data.get("category_id", 0),
-            user_id=data.get("user_id", 0),
-            created_at=(
-                datetime.fromisoformat(data["created_at"])
-                if data.get("created_at")
-                else None
-            ),
-            updated_at=(
-                datetime.fromisoformat(data["updated_at"])
-                if data.get("updated_at")
-                else None
-            ),
+            record_id=record_id,
+            amount=amount,
+            date=date,
+            record_type=record_type,
+            note=note,
+            category_id=category_id,
+            user_id=user_id,
+            created_at=created_at,
+            updated_at=updated_at,
         )
